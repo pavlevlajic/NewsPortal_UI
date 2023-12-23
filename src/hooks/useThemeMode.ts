@@ -8,10 +8,6 @@ export const useThemeMode = () => {
     const [isDarkMode, setIsDarkMode] = useGlobalState("isDarkmode")
 
     useEffect(() => {
-        console.log({ isDarkMode })
-    }, [isDarkMode])
-
-    useEffect(() => {
         if (localStorage.theme === "dark") {
             toDark()
         } else {

@@ -1,9 +1,9 @@
 import PostCardLikeAndComment from "@/components/PostCardLikeAndComment/PostCardLikeAndComment"
 import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction"
+import { getHref } from "@/constants/contants"
 import { HeadlineType } from "@/constants/headlineType"
-import placeholderImage from "@/images/placeholder-image.webp"
+import placeholderImage from "@/images/placeholder-small.png"
 import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
-import { Route } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { FC, useState } from "react"
@@ -38,29 +38,9 @@ const Card1: FC<Card18Props> = ({
         singlePhoto,
         singleVideo,
         singleAudio,
-        numberOfReactions,
-        numberOfBookmarks,
-        numberOfComments,
+        reactionCount,
+        commentCount,
     } = article
-
-    const getHref = (): Route => {
-        switch (headlineTypeName) {
-            case HeadlineType.SinglePhoto:
-                return ("/single-4/" + slug) as Route
-
-            case HeadlineType.SingleVideo:
-                return ("/single-video/" + slug) as Route
-
-            case HeadlineType.SingleAudio:
-                return ("/single-audio/" + slug) as Route
-
-            case HeadlineType.MultiplePhoto:
-                return ("/single-gallery/" + slug) as Route
-
-            default:
-                return "/not-found" as Route
-        }
-    }
 
     const renderMeta = () => {
         return (
@@ -89,8 +69,8 @@ const Card1: FC<Card18Props> = ({
                     >
                         <PostCardLikeAndComment
                             className="relative"
-                            likeCount={numberOfReactions}
-                            commentCount={numberOfComments}
+                            likeCount={reactionCount}
+                            commentCount={commentCount}
                             hiddenCommentOnMobile={false}
                         />
                         <PostCardSaveAction className="relative" />
@@ -110,7 +90,7 @@ const Card1: FC<Card18Props> = ({
                             />
                         </div>
                     ) : (
-                        <Link href={getHref()}>
+                        <Link href={getHref(headlineTypeName, slug)}>
                             <Image
                                 sizes="(max-width: 600px) 480px, 800px"
                                 alt="featured"
@@ -133,18 +113,22 @@ const Card1: FC<Card18Props> = ({
                         </Link>
                     )}
                     <Link
-                        href={getHref()}
+                        href={getHref(headlineTypeName, slug)}
                         className="absolute z-10 bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-80"
                     ></Link>
                     <div className="absolute z-10 bottom-0 inset-x-0 p-6 flex flex-col flex-grow">
                         <Link
-                            href={getHref()}
+                            href={getHref(headlineTypeName, slug)}
                             className="absolute inset-0"
                         ></Link>
                         {showCategories && (
                             <div className="mb-3">
                                 <ArticleCategoryBadgeList
-                                    categories={[categoryName]}
+                                    categoryName={article.categoryName}
+                                    categoryColorName={
+                                        article.categoryColorName
+                                    }
+                                    categorySlug={article.categorySlug}
                                 />
                             </div>
                         )}

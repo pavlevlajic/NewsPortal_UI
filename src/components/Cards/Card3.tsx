@@ -1,10 +1,7 @@
 "use client"
 
-import PostCardLikeAndComment from "@/components/PostCardLikeAndComment/PostCardLikeAndComment"
-import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction"
-import { HeadlineType } from "@/constants/headlineType"
+import { getHref } from "@/constants/contants"
 import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
-import { Route } from "next"
 import Link from "next/link"
 import { FC, useState } from "react"
 import ArticleCategoryBadgeList from "../CategoryBadgeList/ArticleCategoryBadgeList"
@@ -24,37 +21,10 @@ const Card3: FC<Card3Props> = ({
     hiddenAuthor = false,
     ratio = "aspect-w-4 aspect-h-3",
 }) => {
-    const {
-        title,
-        slug,
-        categoryName,
-        createdDateLocal,
-        headlineTypeName,
-        numberOfReactions,
-        numberOfBookmarks,
-        numberOfComments,
-    } = article
+    const { title, slug, categoryName, formattedDate, headlineTypeName } =
+        article
 
     const [isHover, setIsHover] = useState(false)
-
-    const getHref = (): Route => {
-        switch (headlineTypeName) {
-            case HeadlineType.SinglePhoto:
-                return ("/single-4/" + slug) as Route
-
-            case HeadlineType.SingleVideo:
-                return ("/single-video/" + slug) as Route
-
-            case HeadlineType.SingleAudio:
-                return ("/single-audio/" + slug) as Route
-
-            case HeadlineType.MultiplePhoto:
-                return ("/single-gallery/" + slug) as Route
-
-            default:
-                return "/not-found" as Route
-        }
-    }
 
     return (
         <div
@@ -77,9 +47,18 @@ const Card3: FC<Card3Props> = ({
                             />
                         </div>
                     </div>
-                    <Link href={getHref()} className="absolute inset-0"></Link>
+
+                    <Link
+                        href={getHref(headlineTypeName, slug)}
+                        className="absolute inset-0"
+                    ></Link>
+
                     <span className="absolute top-3 inset-x-3 z-10">
-                        <ArticleCategoryBadgeList categories={[categoryName]} />
+                        <ArticleCategoryBadgeList
+                            categoryName={article.categoryName}
+                            categoryColorName={article.categoryColorName}
+                            categorySlug={article.categorySlug}
+                        />
                     </span>
 
                     <div className="p-4 flex flex-col space-y-3">
@@ -87,7 +66,7 @@ const Card3: FC<Card3Props> = ({
                             <ArticleCardMetaV2 meta={article} />
                         ) : (
                             <span className="text-xs text-neutral-500">
-                                {createdDateLocal}
+                                {formattedDate}
                             </span>
                         )}
                         <h3 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100">
@@ -95,7 +74,7 @@ const Card3: FC<Card3Props> = ({
                                 {title}
                             </span>
                         </h3>
-                        <div className="flex items-end justify-between mt-auto">
+                        {/* <div className="flex items-end justify-between mt-auto">
                             <PostCardLikeAndComment
                                 className="relative"
                                 likeCount={numberOfReactions}
@@ -103,7 +82,7 @@ const Card3: FC<Card3Props> = ({
                                 hiddenCommentOnMobile={false}
                             />
                             <PostCardSaveAction className="relative" />
-                        </div>
+                        </div> */}
                     </div>
                 </>
             )}
@@ -124,6 +103,9 @@ const PulseLoader: React.FC<PulseLoaderProps> = ({
 }) => {
     return (
         <div className={`rounded-3xl overflow-hidden bg-gray-500 ${className}`}>
+            <span className="absolute top-3 inset-x-3 z-10">
+                <div className="h-6 bg-gray-500 rounded w-2/4"></div>
+            </span>
             <div className={`animate-pulse flex flex-col ${ratio}`}>
                 <div className="bg-gray-300 flex-grow"></div>{" "}
                 {/* Placeholder for media */}
@@ -135,15 +117,13 @@ const PulseLoader: React.FC<PulseLoaderProps> = ({
                 <div className="h-5 bg-gray-300 rounded w-5/6"></div>{" "}
                 {/* <div className="h-6 bg-gray-300 rounded w-5/6"></div>{" "} */}
                 {/* Placeholder for date or author */}
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                     <div className="flex h-8 w-full space-x-2">
                         <div className="h-8 bg-gray-300 rounded w-16"></div>{" "}
-                        {/* Placeholder for like/comment count */}
                         <div className="h-8 bg-gray-300 rounded w-16"></div>{" "}
                     </div>
                     <div className="h-8 bg-gray-300 rounded w-10"></div>{" "}
-                    {/* Placeholder for save action */}
-                </div>
+                </div> */}
             </div>
         </div>
     )

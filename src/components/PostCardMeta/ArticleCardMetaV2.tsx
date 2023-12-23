@@ -1,5 +1,4 @@
 import Avatar from "@/components/Avatar/Avatar"
-import { HeadlineType } from "@/constants/headlineType"
 import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
 import { Route } from "next"
 import Link from "next/link"
@@ -8,7 +7,7 @@ import { FC } from "react"
 export interface ArticleCardMetaV2Props {
     meta: Pick<
         ArticlePreviewViewModel,
-        | "createdDateLocal"
+        | "formattedDate"
         | "authorFirstName"
         | "authorLastName"
         | "authorUserName"
@@ -31,7 +30,7 @@ const ArticleCardMetaV2: FC<ArticleCardMetaV2Props> = ({
     avatarSize = "h-9 w-9 text-base",
 }) => {
     const {
-        createdDateLocal,
+        formattedDate,
         authorFirstName,
         authorLastName,
         authorUserName,
@@ -39,25 +38,6 @@ const ArticleCardMetaV2: FC<ArticleCardMetaV2Props> = ({
         slug,
         headlineTypeName,
     } = meta
-
-    const getHref = (): Route => {
-        switch (headlineTypeName) {
-            case HeadlineType.SinglePhoto:
-                return ("/single-4/" + slug) as Route
-
-            case HeadlineType.SingleVideo:
-                return ("/single-video/" + slug) as Route
-
-            case HeadlineType.SingleAudio:
-                return ("/single-audio/" + slug) as Route
-
-            case HeadlineType.MultiplePhoto:
-                return ("/single-gallery/" + slug) as Route
-
-            default:
-                return "/not-found" as Route
-        }
-    }
 
     return (
         <div
@@ -80,7 +60,7 @@ const ArticleCardMetaV2: FC<ArticleCardMetaV2Props> = ({
                     </h2> */}
 
                     <Link
-                        href={("/author" + authorUserName) as Route}
+                        href={("/author/" + authorUserName) as Route}
                         className="flex mt-1.5"
                     >
                         <span className="block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium">
@@ -90,7 +70,7 @@ const ArticleCardMetaV2: FC<ArticleCardMetaV2Props> = ({
                             ·
                         </span>
                         <span className="text-neutral-500 dark:text-neutral-400 font-normal">
-                            {createdDateLocal}
+                            {formattedDate}
                         </span>
                     </Link>
                 </div>

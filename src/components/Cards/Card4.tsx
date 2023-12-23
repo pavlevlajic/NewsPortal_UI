@@ -4,6 +4,7 @@ import { getHref } from "@/constants/contants"
 import { HeadlineType } from "@/constants/headlineType"
 import placeholderImage from "@/images/placeholder-small.png"
 import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
+import { Route } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { FC, useState } from "react"
@@ -11,51 +12,65 @@ import ArticleCategoryBadgeList from "../CategoryBadgeList/ArticleCategoryBadgeL
 import ArticleFeaturedMedia from "../PostFeaturedMedia/ArticleFeaturedMedia"
 import ArticleFeaturedIcon from "../PostTypeFeaturedIcon/ArticleFeaturedIcon"
 
-interface Card2Props {
+interface Card4Props {
     className?: string
     ratio?: string
-    titleClass?: string
     article: ArticlePreviewViewModel
     hoverClass?: string
-    showCategories?: boolean
 }
 
-const Card2: FC<Card2Props> = ({
+const Card4: FC<Card4Props> = ({
     className = "h-full",
-    titleClass = "text-xl sm:text-2xl xl:text-3xl",
-    ratio = "aspect-w-4 sm:aspect-w-3 aspect-h-3",
+    ratio = "aspect-w-3 aspect-h-3 sm:aspect-h-4",
     article,
     hoverClass = "",
-    showCategories = true,
 }) => {
     const [isHover, setIsHover] = useState<boolean>(false)
 
     const {
+        articleId,
         title,
         slug,
         categoryName,
+        formattedDate,
         headlineTypeName,
         singlePhoto,
-        singleVideo,
         singleAudio,
-        reactionCount,
-        commentCount,
+        singleVideo,
+        authorFirstName,
+        authorLastName,
+        authorUserName,
     } = article
 
     const renderMeta = () => {
         return (
             <div className="inline-flex items-center text-xs text-neutral-300">
-                <h2 className={`block  font-semibold text-white ${titleClass}`}>
-                    {title}
-                </h2>
+                <div className="block ">
+                    <h2 className="block text-base sm:text-lg font-semibold text-white ">
+                        <span className="line-clamp-2" title={title}>
+                            {title}
+                        </span>
+                    </h2>
+                    <Link
+                        href={("/author/" + authorUserName) as Route}
+                        className="flex mt-2.5 relative"
+                    >
+                        <span className="block text-neutral-200 hover:text-white font-medium truncate">
+                            {authorFirstName} {authorLastName}
+                        </span>
+                        <span className="mx-[6px] font-medium">·</span>
+                        <span className="font-normal truncate">
+                            {formattedDate}
+                        </span>
+                    </Link>
+                </div>
             </div>
         )
     }
 
     return (
         <div
-            className={`nc-Card2 relative flex flex-col group rounded-xl overflow-hidden ${hoverClass} ${className}`}
-            data-nc-id="Card2"
+            className={`nc-Card4 relative flex flex-col group rounded-3xl overflow-hidden z-0 ${hoverClass} ${className}`}
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >
@@ -63,24 +78,16 @@ const Card2: FC<Card2Props> = ({
                 <PulseLoader className={className} ratio={ratio} />
             ) : (
                 <>
-                    <div
-                        className={`absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all ${
-                            isHover ? "opacity-100 z-20" : "opacity-0"
-                        } duration-600`}
-                    >
-                        <PostCardLikeAndComment
+                    <div className="absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all opacity-0 z-[-1] group-hover:opacity-100 group-hover:z-10 duration-300">
+                        <PostCardLikeAndComment className="relative" />
+                        <PostCardSaveAction
+                            hidenReadingTime
                             className="relative"
-                            likeCount={reactionCount}
-                            commentCount={commentCount}
-                            hiddenCommentOnMobile={false}
                         />
-                        <PostCardSaveAction className="relative" />
                     </div>
-
                     <div
                         className={`flex items-start relative w-full ${ratio}`}
                     ></div>
-
                     {headlineTypeName === HeadlineType.SingleAudio ||
                     headlineTypeName === HeadlineType.MultiplePhoto ||
                     headlineTypeName === HeadlineType.SingleVideo ? (
@@ -93,16 +100,16 @@ const Card2: FC<Card2Props> = ({
                     ) : (
                         <Link href={getHref(headlineTypeName, slug)}>
                             <Image
-                                sizes="(max-width: 600px) 480px, 800px"
-                                className="object-cover w-full h-full rounded-xl"
+                                fill
+                                alt=""
+                                className="object-cover w-full h-full rounded-3xl"
                                 src={
                                     singlePhoto?.fileUrl ??
                                     singleVideo?.thumbnailUrl ??
                                     singleAudio?.thumbnailUrl ??
                                     placeholderImage
                                 }
-                                alt="post"
-                                fill
+                                sizes="(max-width: 600px) 480px, 500px"
                             />
                             <ArticleFeaturedIcon
                                 className="absolute top-3 left-3 group-hover:hidden"
@@ -115,24 +122,20 @@ const Card2: FC<Card2Props> = ({
                     )}
                     <Link
                         href={getHref(headlineTypeName, slug)}
-                        className="absolute z-10 bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-80"
+                        className="absolute z-10 bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-50"
                     ></Link>
-                    <div className="absolute z-10 bottom-0 inset-x-0 p-5 sm:p-8 flex flex-col flex-grow">
+                    <div className="absolute z-20 bottom-0 inset-x-0 p-4 flex flex-col flex-grow">
                         <Link
                             href={getHref(headlineTypeName, slug)}
                             className="absolute inset-0"
                         ></Link>
-                        {showCategories && (
-                            <div className="mb-3">
-                                <ArticleCategoryBadgeList
-                                    categoryName={article.categoryName}
-                                    categoryColorName={
-                                        article.categoryColorName
-                                    }
-                                    categorySlug={article.categorySlug}
-                                />
-                            </div>
-                        )}
+                        <div className="mb-3">
+                            <ArticleCategoryBadgeList
+                                categoryName={article.categoryName}
+                                categoryColorName={article.categoryColorName}
+                                categorySlug={article.categorySlug}
+                            />
+                        </div>
                         {renderMeta()}
                     </div>
                 </>
@@ -141,7 +144,7 @@ const Card2: FC<Card2Props> = ({
     )
 }
 
-export default Card2
+export default Card4
 
 const PulseLoader = ({
     className,
@@ -166,7 +169,7 @@ const PulseLoader = ({
                             style={{ borderRadius: "0.125rem" }}
                         ></div>
                         <div
-                            className="h-8 bg-gray-200 w-5/6"
+                            className="h-4 bg-gray-200 w-5/6"
                             style={{ borderRadius: "0.125rem" }}
                         ></div>
                     </div>

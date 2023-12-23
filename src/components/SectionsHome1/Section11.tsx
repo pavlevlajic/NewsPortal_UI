@@ -1,38 +1,33 @@
-import {
-    HomePageContent10,
-    HomePageContent2,
-    HomePageContent8,
-} from "@/models/homePage/homePageViewModel"
+import { HomePageContent11 } from "@/models/homePage/homePageViewModel"
 import { FC } from "react"
 import Card3 from "../Cards/Card3"
 import ArticleHeaderFilter from "../Sections/ArticleHeaderFilter"
 
-interface Section2Props {
-    content: HomePageContent2 | HomePageContent8 | HomePageContent10
+interface Section11Props {
+    content: HomePageContent11
     className?: string
     hasBackground?: boolean
+    heading?: string
+    desc?: string
 }
 
-const Section2: FC<Section2Props> = ({
+const Section11: FC<Section11Props> = ({
     content,
     className = "",
     hasBackground = false,
+    heading = "",
+    desc,
 }) => {
     const renderContent = () => {
         return (
-            <div className={`nc-Section2 relative ${className}`}>
-                {content.categoryWithArticles.categoryName ? (
-                    <ArticleHeaderFilter
-                        heading={content.categoryWithArticles.categoryName}
-                        desc={`Discover the most outstanding articles on ${content.categoryWithArticles.categoryName} topic. `}
-                    />
+            <div className={`nc-Section11 relative ${className}`}>
+                {content.articles?.[0].articleId ? (
+                    <ArticleHeaderFilter heading={heading} desc={desc} />
                 ) : (
                     <PulseLoader />
                 )}
 
-                {!content.categoryWithArticles.articles.length && (
-                    <span>Nothing we found!</span>
-                )}
+                {!content.articles.length && <span>Nothing we found!</span>}
 
                 <div className="relative">
                     <div className="grid grid-cols-1 gap-6 md:gap-8">
@@ -40,16 +35,14 @@ const Section2: FC<Section2Props> = ({
                             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
                         xl:grid-cols-4 gap-6 md:gap-8 mt-3"
                         >
-                            {content.categoryWithArticles.articles.map(
-                                (x, i) => (
-                                    <Card3
-                                        // ratio="aspect-w-5 aspect-h-3"
-                                        key={i}
-                                        article={x}
-                                        hiddenAuthor={true}
-                                    />
-                                )
-                            )}
+                            {content.articles.map((x, i) => (
+                                <Card3
+                                    // ratio="aspect-w-5 aspect-h-3"
+                                    key={i}
+                                    article={x}
+                                    hiddenAuthor={true}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -77,15 +70,15 @@ const Section2: FC<Section2Props> = ({
     )
 }
 
-export default Section2
+export default Section11
 
 const PulseLoader: React.FC = () => {
     return (
         <div className="flex flex-row justify-between mb-8 relative animate-pulse">
             <div>
-                <div className="h-10 bg-gray-300 rounded w-60 mb-4"></div>{" "}
+                <div className="h-10 bg-gray-300 rounded w-80 mb-4"></div>{" "}
                 <div className="flex space-x-2">
-                    <div className="h-6 bg-gray-300 rounded w-40"></div>
+                    <div className="h-6 bg-gray-300 rounded w-60"></div>
                 </div>
             </div>
             {/* Placeholder for heading */}

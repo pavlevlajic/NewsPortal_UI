@@ -1,101 +1,141 @@
 "use client"
 
+import Section11 from "@/components/SectionsHome1/Section11"
+import Section12 from "@/components/SectionsHome1/Section12"
+import Section13 from "@/components/SectionsHome1/Section13"
 import {
-    content1NumberOfArticles,
-    initArticlePreview,
+    initHomePageContent1,
+    initHomePageContent10,
+    initHomePageContent11,
+    initHomePageContent12,
+    initHomePageContent13,
+    initHomePageContent2,
+    initHomePageContent3,
+    initHomePageContent4,
+    initHomePageContent5,
+    initHomePageContent6,
+    initHomePageContent7,
+    initHomePageContent8,
+    initHomePageContent9,
 } from "@/constants/contants"
-import { DEMO_POSTS_NEWS } from "@/data/posts"
-import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
+import becomAuthorImg from "@/images/BecomeAnAuthorImg.png"
 import dynamic from "next/dynamic"
 import useGetHomePageContent from "../../../hooks/homePage/useGetHomePageContent"
 
 const Section1 = dynamic(() => import("@/components/SectionsHome1/Section1"))
 const Section2 = dynamic(() => import("@/components/SectionsHome1/Section2"))
-
-const SectionAds = dynamic(() => import("@/components/Sections/SectionAds"))
-const SectionLatestPosts = dynamic(
-    () => import("@/components/Sections/SectionLatestPosts")
-)
-const SectionMagazine11 = dynamic(
-    () => import("@/components/Sections/SectionMagazine11")
-)
-const SectionMagazine7 = dynamic(
-    () => import("@/components/Sections/SectionMagazine7")
-)
-const SectionMagazine2 = dynamic(
-    () => import("@/components/Sections/SectionMagazine2")
-)
-const SectionMagazine9 = dynamic(
-    () => import("@/components/Sections/SectionMagazine9")
-)
-
-//
-const MAGAZINE1_POSTS = DEMO_POSTS_NEWS.filter((_, i) => i >= 8 && i < 16)
-const MAGAZINE2_POSTS = DEMO_POSTS_NEWS.filter((_, i) => i >= 0 && i < 4)
-const MAGAZINE3_POSTS = DEMO_POSTS_NEWS.filter((_, i) => i >= 0 && i < 7)
-//
-
-const INIT_CONTENT_1: ArticlePreviewViewModel[] = new Array(
-    content1NumberOfArticles
-).fill(initArticlePreview)
-
-const INIT_CONTENT_2: ArticlePreviewViewModel[] = new Array(
-    content1NumberOfArticles
-).fill(initArticlePreview)
+const Section3 = dynamic(() => import("@/components/SectionsHome1/Section3"))
+const Section4 = dynamic(() => import("@/components/SectionsHome1/Section4"))
+const Section5 = dynamic(() => import("@/components/SectionsHome1/Section5"))
+const Section14 = dynamic(() => import("@/components/SectionsHome1/Section14"))
 
 export default function HomePage1Content() {
     const { homePageContent } = useGetHomePageContent()
 
     return (
-        <div className="nc-PageHomeDemo6 relative [ nc-section-rounded-md ] mt-4">
+        <div className="nc-PageHomeDemo6 relative mt-4">
             <div className="relative overflow-hidden">
-                <div className="container relative">
-                    <Section1
-                        articles={
-                            homePageContent?.content1.articles ?? INIT_CONTENT_1
-                        }
-                    />
+                {/* Content 1: 8 latest articles */}
+                <Section1
+                    content={homePageContent?.content1 ?? initHomePageContent1}
+                />
 
-                    {/* <SectionMagazine9
-                        gapClassName="gap-6"
-                        className="pt-16 lg:pt-24"
-                        posts={DEMO_POSTS_NEWS.filter(
-                            (_, i) => i >= 6 && i < 18
-                        )}
-                    /> */}
+                {/* Content 2: 4 latest by most popular category */}
+                <Section2
+                    content={homePageContent?.content2 ?? initHomePageContent2}
+                    className="[ nc-section-rounded-md ]"
+                    hasBackground
+                />
 
-                    {/* <SectionAds className="pt-16 lg:pt-24" /> */}
+                {/* Content 3: 8 latest (except from content 1 and content 2) - Highlighted */}
+                <Section3
+                    content={homePageContent?.content3 ?? initHomePageContent3}
+                    className="[ nc-section-rounded-md ]"
+                    hasBackground
+                    heading="Explore our latest articles"
+                />
 
-                    {/* <SectionMagazine2
-                        className="pt-16 lg:pt-24"
-                        heading="Latest Articles"
-                        posts={MAGAZINE2_POSTS}
-                    /> */}
+                {/* Content 4: 4 latest articles from second most popular category */}
+                <Section4
+                    content={homePageContent?.content4 ?? initHomePageContent4}
+                    className="[ nc-section-rounded-md ]"
+                />
 
-                    {/* === SECTION 11 === */}
-                    {/* <SectionMagazine11 className="py-16 lg:py-24" /> */}
-                </div>
+                {/* Content 5: 6 latest articles from third most popular category */}
+                <Section5
+                    content={homePageContent?.content5 ?? initHomePageContent5}
+                    className="[ nc-section-rounded-md ]"
+                />
 
-                {/* === SECTION 11 === */}
-                <div className="dark bg-neutral-900 dark:bg-black dark:bg-opacity-20 text-neutral-100">
-                    <div className="relative container">
-                        {/* <SectionLatestPosts
-                            heading="Latest Articles"
-                            className="py-16 lg:py-24"
-                            posts={DEMO_POSTS_NEWS.filter(
-                                (_, i) => i > 7 && i < 18
-                            )}
-                            postCardName="card4"
-                            gridClass="sm:grid-cols-2"
-                        />*/}
-                        <Section2
-                            articles={
-                                homePageContent?.content2.articles ??
-                                INIT_CONTENT_2
-                            }
-                        />
-                    </div>
-                </div>
+                {/* Content 6: 4 latest articles from fourth most popular category */}
+                <Section4
+                    content={homePageContent?.content6 ?? initHomePageContent6}
+                    className="[ nc-section-rounded-md ]"
+                    hasBackground
+                />
+
+                {/* Content 7: 6 latest articles from fifth most popular category */}
+                <Section5
+                    content={homePageContent?.content7 ?? initHomePageContent7}
+                    className="[ nc-section-rounded-md ]"
+                />
+
+                {/* Content 8: 4 latest articles from sixth most popular category */}
+                <Section2
+                    content={homePageContent?.content8 ?? initHomePageContent8}
+                    className="[ nc-section-rounded-md ]"
+                    hasBackground
+                />
+
+                {/* Content 9: 6 latest articles from seventh most popular category */}
+                <Section5
+                    content={homePageContent?.content9 ?? initHomePageContent9}
+                    className="[ nc-section-rounded-md ]"
+                />
+
+                {/* Content 10: 4 latest articles from eighth most popular category */}
+                <Section2
+                    content={
+                        homePageContent?.content10 ?? initHomePageContent10
+                    }
+                    className="[ nc-section-rounded-md ]"
+                />
+
+                {/* Content 11: 16 latest articles except from other articles before */}
+                <Section11
+                    content={
+                        homePageContent?.content11 ?? initHomePageContent11
+                    }
+                    className="[ nc-section-rounded-md ]"
+                    hasBackground
+                    heading="Explore other latest articles"
+                    desc="Explore 1129 other articles"
+                />
+
+                {/* Content 12: Categories */}
+                {/* Todo: Pulse Loader */}
+                <Section12
+                    className="py-16 lg:py-28"
+                    heading="Topics by trending"
+                    subHeading="Discover 156 topics"
+                    content={
+                        homePageContent?.content12 ?? initHomePageContent12
+                    }
+                    categoryCardType="card4"
+                />
+
+                {/* Content 13: Authors */}
+                {/* Todo: Pulse Loader*/}
+                <Section13
+                    content={
+                        homePageContent?.content13 ?? initHomePageContent13
+                    }
+                    className="py-6 lg:py-10"
+                    hasBackground
+                />
+
+                {/* Content 14: 4 latest by most popular category */}
+                <Section14 className="py-16" rightImg={becomAuthorImg} />
             </div>
         </div>
     )

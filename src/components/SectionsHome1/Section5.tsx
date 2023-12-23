@@ -1,26 +1,29 @@
 import {
-    HomePageContent10,
-    HomePageContent2,
-    HomePageContent8,
+    HomePageContent5,
+    HomePageContent7,
+    HomePageContent9,
 } from "@/models/homePage/homePageViewModel"
 import { FC } from "react"
-import Card3 from "../Cards/Card3"
+import Card4 from "../Cards/Card4"
+import Card5 from "../Cards/Card5"
 import ArticleHeaderFilter from "../Sections/ArticleHeaderFilter"
 
-interface Section2Props {
-    content: HomePageContent2 | HomePageContent8 | HomePageContent10
+interface Section5Props {
+    content: HomePageContent5 | HomePageContent7 | HomePageContent9
     className?: string
+    gapClassName?: string
     hasBackground?: boolean
 }
 
-const Section2: FC<Section2Props> = ({
+const Section5: FC<Section5Props> = ({
     content,
     className = "",
+    gapClassName = "gap-6 md:gap-8",
     hasBackground = false,
 }) => {
     const renderContent = () => {
         return (
-            <div className={`nc-Section2 relative ${className}`}>
+            <div className={`nc-Section5 relative ${className}`}>
                 {content.categoryWithArticles.categoryName ? (
                     <ArticleHeaderFilter
                         heading={content.categoryWithArticles.categoryName}
@@ -30,28 +33,30 @@ const Section2: FC<Section2Props> = ({
                     <PulseLoader />
                 )}
 
-                {!content.categoryWithArticles.articles.length && (
-                    <span>Nothing we found!</span>
-                )}
-
-                <div className="relative">
-                    <div className="grid grid-cols-1 gap-6 md:gap-8">
-                        <div
-                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
-                        xl:grid-cols-4 gap-6 md:gap-8 mt-3"
-                        >
-                            {content.categoryWithArticles.articles.map(
-                                (x, i) => (
-                                    <Card3
-                                        // ratio="aspect-w-5 aspect-h-3"
-                                        key={i}
-                                        article={x}
-                                        hiddenAuthor={true}
-                                    />
-                                )
-                            )}
-                        </div>
-                    </div>
+                <div
+                    className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 ${gapClassName}`}
+                >
+                    {content.categoryWithArticles.articles[0] && (
+                        <Card4
+                            ratio="aspect-w-4 aspect-h-3"
+                            article={content.categoryWithArticles.articles[0]}
+                        />
+                    )}
+                    {content.categoryWithArticles.articles[1] && (
+                        <Card4
+                            ratio="aspect-w-4 aspect-h-3"
+                            article={content.categoryWithArticles.articles[1]}
+                        />
+                    )}
+                </div>
+                <div
+                    className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 ${gapClassName} mt-8`}
+                >
+                    {content.categoryWithArticles.articles
+                        .filter((_, i) => i > 1)
+                        .map((x, i) => (
+                            <Card5 key={i} article={x} />
+                        ))}
                 </div>
             </div>
         )
@@ -61,6 +66,7 @@ const Section2: FC<Section2Props> = ({
         <div className="container relative mt-20">
             {hasBackground ? (
                 <div className="relative py-16">
+                    {/* bg-fuchsia-100 dark:bg-fuchsia-800 dark:bg-opacity-70 */}
                     <div
                         className="absolute inset-y-0 w-screen xl:max-w-[1340px] 2xl:max-w-screen-2xl left-1/2 
             transform -translate-x-1/2 rounded-none md:rounded-md z-0 bg-neutral-200 bg-opacity-40 dark:bg-black dark:bg-opacity-20"
@@ -69,23 +75,21 @@ const Section2: FC<Section2Props> = ({
                     {renderContent()}
                 </div>
             ) : (
-                <>
-                    <>{renderContent()}</>
-                </>
+                <>{renderContent()}</>
             )}
         </div>
     )
 }
 
-export default Section2
+export default Section5
 
 const PulseLoader: React.FC = () => {
     return (
         <div className="flex flex-row justify-between mb-8 relative animate-pulse">
             <div>
-                <div className="h-10 bg-gray-300 rounded w-60 mb-4"></div>{" "}
+                <div className="h-10 bg-gray-300 rounded w-80 mb-4"></div>{" "}
                 <div className="flex space-x-2">
-                    <div className="h-6 bg-gray-300 rounded w-40"></div>
+                    <div className="h-6 bg-gray-300 rounded w-60"></div>
                 </div>
             </div>
             {/* Placeholder for heading */}

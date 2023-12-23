@@ -2,7 +2,7 @@
 
 import { defaultPostData, defaultTaxonomy } from "@/constants/contants"
 import { HeadlineType } from "@/constants/headlineType"
-import placeholderImage from "@/images/placeholder-image.webp"
+import placeholderImage from "@/images/placeholder-small.png"
 import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
 import { Route } from "next"
 import Image from "next/image"
@@ -17,12 +17,14 @@ interface ArticleFeaturedMediaProps {
     className?: string
     article: ArticlePreviewViewModel
     isHover?: boolean
+    isRelative?: boolean
 }
 
 const ArticleFeaturedMedia: FC<ArticleFeaturedMediaProps> = ({
     className = "w-full h-full",
     article,
     isHover = false,
+    isRelative = true,
 }) => {
     const {
         headlineTypeName,
@@ -80,6 +82,7 @@ const ArticleFeaturedMedia: FC<ArticleFeaturedMediaProps> = ({
                     className="absolute inset-0 bg-neutral-900/30 flex items-center justify-center"
                     post={{
                         ...defaultPostData,
+                        id: article.articleId,
                         featuredImage: singleAudio?.thumbnailUrl ?? "",
                         title: title,
                         postType: "audio", // SingleAudio
@@ -104,7 +107,11 @@ const ArticleFeaturedMedia: FC<ArticleFeaturedMediaProps> = ({
     }
 
     return (
-        <div className={`nc-PostFeaturedMedia relative ${className}`}>
+        <div
+            className={`nc-PostFeaturedMedia ${
+                isRelative && "relative"
+            } ${className}`}
+        >
             {headlineTypeName !== HeadlineType.MultiplePhoto && (
                 <Image
                     alt="featured"

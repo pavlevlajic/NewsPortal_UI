@@ -5,6 +5,10 @@ export interface ArticlePreviewViewModel {
     slug: string
     categoryId: string
     categoryName: string
+    categorySlug: string
+    categoryColorName: string
+    categoryFrontPhotoUrl: string | null
+    categoryCoverPhotoUrl: string | null
     headlineTypeId: string
     headlineTypeName: string
     singlePhoto: SinglePhotoArticlePreview | null
@@ -17,9 +21,10 @@ export interface ArticlePreviewViewModel {
     authorUserName: string
     authorProfilePhotoUrl: string | null
     createdDateLocal: string
-    numberOfBookmarks: number
-    numberOfComments: number
-    numberOfReactions: number
+    formattedDate: string
+    bookmarkCount: number
+    commentCount: number
+    reactionCount: number
 }
 
 export interface SinglePhotoArticlePreview {
