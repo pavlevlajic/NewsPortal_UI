@@ -3,6 +3,7 @@ import SingleContent from "@/app/(singles)/SingleContent"
 import SingleHeader from "@/app/(singles)/SingleHeader"
 import SingleRelatedPosts from "@/app/(singles)/SingleRelatedPosts"
 import NcImage from "@/components/NcImage/NcImage"
+import { SinglePageViewModel } from "@/models/singlePage/singlePageViewModel"
 import { Metadata } from "next"
 
 type MetadataProps = {
@@ -16,7 +17,7 @@ export async function generateMetadata({
     const slug = params.slug
 
     // fetch data
-    const product = await fetch(
+    const singlePageContent: SinglePageViewModel = await fetch(
         `https://pavlevlajic.com/api/single/get-single-page-content?slug=${
             slug || "article-number-1"
         }`
@@ -25,12 +26,38 @@ export async function generateMetadata({
     // optionally access and extend (rather than replace) parent metadata
     // const previousImages = (await parent)?.openGraph?.images || []
 
-    return {
-        title: product.article.title,
-        description: product.article.briefDescription,
+    const article = singlePageContent.article
 
+    return {
+        title: article.title,
+        description: article.briefContent,
+        keywords: article.tags,
+        authors: [
+            {
+                name: `${article.authorFirstName} ${article.authorLastName}`,
+                url: `https://news-portal-ui-taupe.vercel.app/author/${article.authorUserName}`,
+            },
+        ],
+        applicationName: "News Portal",
+        category: article.categoryName,
+        twitter: {
+            title: article.title,
+            description: article.briefContent,
+            images: [article.singlePhoto?.fileUrl ?? ""],
+            creator: `${article.authorFirstName} ${article.authorLastName}`,
+            // card: "app",
+            site: `https://news-portal-ui-taupe.vercel.app/single/${article.slug}`,
+        },
         openGraph: {
-            images: [product.article.singlePhoto.fileUrl],
+            title: article.title,
+            description: article.briefContent,
+            type: "article",
+            authors: [`${article.authorFirstName} ${article.authorLastName}`],
+            images: [article.singlePhoto?.fileUrl ?? ""],
+            siteName: "News Portal",
+            publishedTime: article.formattedDate,
+            tags: article.tags,
+            url: `https://news-portal-ui-taupe.vercel.app/single/${article.slug}`,
         },
     }
 }
