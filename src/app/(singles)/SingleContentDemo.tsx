@@ -1,7 +1,13 @@
 import Image from "next/image"
 
-const SingleContentDemo = () => {
-    return (
+interface Props {
+    htmlContent?: string
+}
+
+const SingleContentDemo = ({ htmlContent }: Props) => {
+    return htmlContent ? (
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+    ) : (
         <>
             {/* THIS IS THE DEMP CONTENT - YOU CAN USE MARKDOWN, JSON ...*/}
             <p>

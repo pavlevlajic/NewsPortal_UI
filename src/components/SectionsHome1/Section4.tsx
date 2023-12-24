@@ -49,8 +49,8 @@ const Section4: FC<Section4Props> = ({
                     <div className="md:col-span-2 space-y-6">
                         {content.categoryWithArticles.articles
                             .filter((_, i) => i >= 1) // Adjust the index as needed
-                            .map((article, i) => (
-                                <Card5 key={i} article={article} className="" />
+                            .map((x, i) => (
+                                <Card5 key={i} article={x} className="" />
                             ))}
                     </div>
                 </div>

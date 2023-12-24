@@ -4,7 +4,6 @@ import { getHref } from "@/constants/contants"
 import { HeadlineType } from "@/constants/headlineType"
 import placeholderImage from "@/images/placeholder-small.png"
 import { ArticlePreviewViewModel } from "@/models/article/articlePreviewViewModel"
-import { PauseIcon, PlayIcon } from "@heroicons/react/24/solid"
 import Image from "next/image"
 import Link from "next/link"
 import { FC, useState } from "react"
@@ -29,27 +28,9 @@ const Card5: FC<Card5Props> = ({ className = "h-full", article }) => {
         singlePhoto,
         singleVideo,
         categoryName,
+        categoryColorName,
+        categorySlug,
     } = article
-
-    const IS_AUDIO = headlineTypeName === HeadlineType.SingleAudio
-
-    const renderDefaultBtnListen = (state?: "playing") => {
-        return (
-            <div className="inline-flex items-center mt-3 pe-4 py-0.5 hover:ps-0.5 cursor-pointer rounded-full transition-all hover:bg-primary-50 dark:hover:bg-neutral-900">
-                <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 dark:bg-neutral-800 text-primary-6000 dark:text-primary-200">
-                    {state === "playing" ? (
-                        <PauseIcon className="w-5 h-5" />
-                    ) : (
-                        <PlayIcon className="w-5 h-5 rtl:rotate-180" />
-                    )}
-                </span>
-
-                <span className="ms-3 text-xs sm:text-sm font-medium">
-                    {state === "playing" ? "Now playing" : "Listen now"}
-                </span>
-            </div>
-        )
-    }
 
     return !article.articleId ? (
         <div
@@ -58,7 +39,7 @@ const Card5: FC<Card5Props> = ({ className = "h-full", article }) => {
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >
-            <PulseLoader className={className} />
+            <PulseLoader />
         </div>
     ) : (
         <div
@@ -106,18 +87,11 @@ const Card5: FC<Card5Props> = ({ className = "h-full", article }) => {
                 )}
             </div>
 
-            <div className="flex flex-col flex-grow ms-4 gap-y-3.5">
-
-{/* Checkpoint: */}
-{/* Adding category badge in this card */}
-
-
-                <h2
-                    className={`nc-card-title block font-semibold text-sm sm:text-lg`}
-                >
+            <div className="flex flex-col justify-between h-full flex-grow ms-4 gap-y-3.5">
+                <h2 className="nc-card-title block font-semibold text-sm sm:text-lg">
                     <Link
                         href={getHref(headlineTypeName, slug)}
-                        className={IS_AUDIO ? `line-clamp-1` : "line-clamp-2"}
+                        className="line-clamp-2"
                         title={title}
                     >
                         {title}
@@ -128,54 +102,27 @@ const Card5: FC<Card5Props> = ({ className = "h-full", article }) => {
                     {formattedDate}
                 </span>
 
-                {/* {IS_AUDIO && (
-                    <ButtonPlayMusicPlayer
-                        post={{
-                            ...defaultPostData,
-                            id: article.articleId,
-                            featuredImage: singleAudio?.thumbnailUrl ?? "",
-                            title: title,
-                            postType: "audio", // SingleAudio
-                            audioUrl: singleAudio?.fileUrl,
-                            categories: [
-                                {
-                                    ...defaultTaxonomy,
-                                    name: categoryName,
-                                },
-                            ],
-                        }}
-                        renderDefaultBtn={() => renderDefaultBtnListen()}
-                        renderPlayingBtn={() =>
-                            renderDefaultBtnListen("playing")
-                        }
-                    />
-                )} */}
+                <ArticleCategoryBadgeList
+                    categoryName={categoryName}
+                    categoryColorName={categoryColorName}
+                    categorySlug={categorySlug}
+                />
             </div>
-            
-
-            <div className="absolute right-3 bottom-3 z-20">
-                    <ArticleCategoryBadgeList
-                        categoryName={article.categoryName}
-                        categoryColorName={article.categoryColorName}
-                        categorySlug={article.categorySlug}
-                    />
-                </div>
         </div>
     )
 }
 
 export default Card5
 
-const PulseLoader: React.FC<{ className?: string }> = ({ className }) => {
+const PulseLoader = () => {
     return (
-        <div className={`flex w-full`}>
-            {/* Placeholder for image or media */}
-            <div className="sm:w-44 sm:h-44 md:w-36 md:h-36  flex-shrink-0 rounded-full overflow-hidden shadow-lg bg-gray-300 animate-pulse"></div>
+        <div className="flex w-full">
+            <div className="w-24 h-24 sm:w-44 sm:h-44 md:w-36 md:h-36 flex-shrink-0 rounded-full overflow-hidden shadow-lg bg-gray-300 animate-pulse"></div>
 
-            <div className="flex flex-col flex-grow ms-4 space-y-2">
-                <div className="h-8 bg-gray-300 rounded w-5/6"></div>
-                <div className="h-6 bg-gray-300 rounded w-3/5"></div>
-                <div className="h-4 bg-gray-300 rounded w-1/3"></div>
+            <div className="flex flex-col justify-around flex-grow ms-4 space-y-2">
+                <div className="h-12 bg-gray-300 rounded w-5/6"></div>
+                <div className="h-4 bg-gray-300 rounded w-2/5"></div>
+                <div className="h-6 bg-gray-300 rounded w-1/3"></div>
             </div>
         </div>
     )

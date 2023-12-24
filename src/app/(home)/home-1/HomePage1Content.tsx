@@ -1,8 +1,5 @@
 "use client"
 
-import Section11 from "@/components/SectionsHome1/Section11"
-import Section12 from "@/components/SectionsHome1/Section12"
-import Section13 from "@/components/SectionsHome1/Section13"
 import {
     initHomePageContent1,
     initHomePageContent10,
@@ -19,18 +16,21 @@ import {
     initHomePageContent9,
 } from "@/constants/contants"
 import becomAuthorImg from "@/images/BecomeAnAuthorImg.png"
+import { HomePageViewModel } from "@/models/homePage/homePageViewModel"
 import dynamic from "next/dynamic"
-import useGetHomePageContent from "../../../hooks/homePage/useGetHomePageContent"
 
 const Section1 = dynamic(() => import("@/components/SectionsHome1/Section1"))
 const Section2 = dynamic(() => import("@/components/SectionsHome1/Section2"))
 const Section3 = dynamic(() => import("@/components/SectionsHome1/Section3"))
 const Section4 = dynamic(() => import("@/components/SectionsHome1/Section4"))
 const Section5 = dynamic(() => import("@/components/SectionsHome1/Section5"))
+const Section11 = dynamic(() => import("@/components/SectionsHome1/Section11"))
+const Section12 = dynamic(() => import("@/components/SectionsHome1/Section12"))
+const Section13 = dynamic(() => import("@/components/SectionsHome1/Section13"))
 const Section14 = dynamic(() => import("@/components/SectionsHome1/Section14"))
 
-export default function HomePage1Content() {
-    const { homePageContent } = useGetHomePageContent()
+export default function HomePage1Content({homePageContent}:{homePageContent: HomePageViewModel|null}) {
+    // const { homePageContent } = useGetHomePageContent()
 
     return (
         <div className="nc-PageHomeDemo6 relative mt-4">
@@ -47,12 +47,12 @@ export default function HomePage1Content() {
                     hasBackground
                 />
 
-                {/* Content 3: 8 latest (except from content 1 and content 2) - Highlighted */}
+                {/* Content 3: 8 latest - Highlighted (has background) */}
                 <Section3
                     content={homePageContent?.content3 ?? initHomePageContent3}
                     className="[ nc-section-rounded-md ]"
-                    hasBackground
                     heading="Explore our latest articles"
+                    hasBackground
                 />
 
                 {/* Content 4: 4 latest articles from second most popular category */}
@@ -67,7 +67,7 @@ export default function HomePage1Content() {
                     className="[ nc-section-rounded-md ]"
                 />
 
-                {/* Content 6: 4 latest articles from fourth most popular category */}
+                {/* Content 6: 4 latest articles from fourth most popular category - Highlighted (has background)*/}
                 <Section4
                     content={homePageContent?.content6 ?? initHomePageContent6}
                     className="[ nc-section-rounded-md ]"
@@ -80,7 +80,7 @@ export default function HomePage1Content() {
                     className="[ nc-section-rounded-md ]"
                 />
 
-                {/* Content 8: 4 latest articles from sixth most popular category */}
+                {/* Content 8: 4 latest articles from sixth most popular category - Highlighted (has background) */}
                 <Section2
                     content={homePageContent?.content8 ?? initHomePageContent8}
                     className="[ nc-section-rounded-md ]"
@@ -101,23 +101,22 @@ export default function HomePage1Content() {
                     className="[ nc-section-rounded-md ]"
                 />
 
-                {/* Content 11: 16 latest articles except from other articles before */}
+                {/* Content 11: 16 latest articles - Highlighted (has background) */}
                 <Section11
                     content={
                         homePageContent?.content11 ?? initHomePageContent11
                     }
                     className="[ nc-section-rounded-md ]"
                     hasBackground
-                    heading="Explore other latest articles"
+                    heading="Explore our other latest articles"
                     desc="Explore 1129 other articles"
                 />
 
                 {/* Content 12: Categories */}
-                {/* Todo: Pulse Loader */}
                 <Section12
                     className="py-16 lg:py-28"
-                    heading="Topics by trending"
-                    subHeading="Discover 156 topics"
+                    heading="Topics ordered by trending"
+                    subHeading={`Discover ${homePageContent?.content12.categories.length} topics`}
                     content={
                         homePageContent?.content12 ?? initHomePageContent12
                     }
@@ -125,7 +124,6 @@ export default function HomePage1Content() {
                 />
 
                 {/* Content 13: Authors */}
-                {/* Todo: Pulse Loader*/}
                 <Section13
                     content={
                         homePageContent?.content13 ?? initHomePageContent13

@@ -1,4 +1,6 @@
 import Badge from "@/components/Badge/Badge"
+import { TwMainColor } from "@/data/types"
+import { Route } from "next"
 import { FC } from "react"
 
 interface ArticleCategoryBadgeListProps {
@@ -24,8 +26,8 @@ const ArticleCategoryBadgeList: FC<ArticleCategoryBadgeListProps> = ({
             <Badge
                 className={itemClass}
                 name={categoryName}
-                // href={("/archive/" + categorySlug) as Route}
-                color={categoryColorName}
+                href={("/archive/" + categorySlug) as Route}
+                color={categoryColorName as TwMainColor}
             />
         </div>
     )

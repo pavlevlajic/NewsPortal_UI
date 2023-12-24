@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
 import homePageReducer from "./homePageSlice"
+import singlePageReducer from "./singlePageSlice"
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
             homePage: homePageReducer,
+            singlePage: singlePageReducer,
         },
     })
 }
