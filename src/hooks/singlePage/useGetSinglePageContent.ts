@@ -17,7 +17,6 @@ const useGetSinglePageContent = ({ slug }: Props) => {
     const singlePageContent = useAppSelector(selectSinglePageContent)
 
     useEffect(() => {
-        console.log("Here");
         const cancelToken = axios.CancelToken.source()
 
         dispatch(getSinglePageContent({ articleId: slug }))

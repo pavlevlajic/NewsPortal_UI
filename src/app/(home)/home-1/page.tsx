@@ -1,28 +1,4 @@
-import { Metadata } from "next"
 import HomePage1Content from "./HomePage1Content"
-
-export async function generateMetadata(
-): Promise<Metadata> {
-    // read route params
-    const slug = "article-number-1"
-
-    // fetch data
-    const product = await fetch(
-        `https://pavlevlajic.com/api/single/get-single-page-content?slug=${
-            slug || "article-number-1"
-        }`
-    ).then((res) => res.json())
-
-    // optionally access and extend (rather than replace) parent metadata
-    // const previousImages = (await parent)?.openGraph?.images || []
-
-    return {
-        title: product.article.title,
-        // openGraph: {
-        //     images: ["/some-specific-page-image.jpg", ...previousImages],
-        // },
-    }
-}
 
 async function getData() {
     const res = await fetch(
@@ -41,7 +17,6 @@ async function getData() {
 
 export default async function HomePage() {
     const homePageContent = await getData()
-
 
     return (
         <div className="nc-PageHomeDemo6 relative mt-4">
