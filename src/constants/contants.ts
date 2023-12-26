@@ -120,6 +120,7 @@ const initArticlePreview: ArticlePreviewViewModel = {
     authorProfilePhotoUrl: null,
     createdDateLocal: "",
     formattedDate: "",
+    shortFormattedDate: "",
     bookmarkCount: 0,
     commentCount: 0,
     reactionCount: 0,
@@ -239,16 +240,16 @@ const initHomePageContent13: HomePageContent13 = {
 const getHref = (headlineTypeName: string, slug: string): Route => {
     switch (headlineTypeName) {
         case HeadlineType.SinglePhoto:
-            return ("/single-4/" + slug) as Route
+            return ("/single/" + slug) as Route
 
         case HeadlineType.SingleVideo:
-            return ("/single-video/" + slug) as Route
+            return ("/single/" + slug) as Route
 
         case HeadlineType.SingleAudio:
-            return ("/single-audio/" + slug) as Route
+            return ("/single/" + slug) as Route
 
         case HeadlineType.MultiplePhoto:
-            return ("/single-gallery/" + slug) as Route
+            return ("/single/" + slug) as Route
 
         default:
             return "/not-found" as Route

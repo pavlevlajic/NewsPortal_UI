@@ -27,6 +27,7 @@ export interface ArticleDetailViewModel {
     authorProfilePhotoUrl: string | null
     createdDateLocal: string
     formattedDate: string
+    shortFormattedDate: string
     bookmarkCount: number
     commentCount: number
     reactionCount: number
